@@ -44,6 +44,18 @@ namespace RUIANDownloader.Interfaces.Models
         /// </summary>
         ICredentials? DefaultProxyCredentials { get; set; }
 
+
+        /// <summary>
+        /// HTTP client - User-Agent header
+        /// </summary>
+        string UserAgent { get; set; }
+
+
+        /// <summary>
+        /// HTTP client - request timeout in ms
+        /// </summary>
+        int Timeout { get; set; }
+
     }
 
 }

@@ -27,6 +27,12 @@ namespace RUIANDownloader.Models
 
         public ICredentials? DefaultProxyCredentials { get; set; } = null;
 
+
+        public string UserAgent { get; set; } = "RUIANDownloader";
+
+
+        public int Timeout { get; set; } = 30000;
+
     }
 
 }
