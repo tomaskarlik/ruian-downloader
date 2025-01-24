@@ -1,0 +1,18 @@
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Environment specific files
+appsettings.*.json
+
+# Build results
+RUIANDownloader/[Bb]in/
+RUIANDownloader/[Oo]bj/
+
+# Visual Studio cache/options directory
+.vs/
+
+# Others
+.vscode
