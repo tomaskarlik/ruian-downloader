@@ -3,10 +3,10 @@
 namespace RUIANDownloader.Services.Http
 {
 
-    public static class HttpClientHandlerFactory
+    internal static class HttpClientHandlerFactory
     {
 
-        public static HttpClientHandler Create(IDownloaderSettings downloaderSettings)
+        internal static HttpClientHandler Create(IDownloaderSettings downloaderSettings)
         {
             return new HttpClientHandler()
             {
