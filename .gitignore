@@ -10,6 +10,8 @@ appsettings.*.json
 # Build results
 RUIANDownloader/[Bb]in/
 RUIANDownloader/[Oo]bj/
+RUIANDownloader.Tests/[Bb]in/
+RUIANDownloader.Tests/[Oo]bj/
 
 # Visual Studio cache/options directory
 .vs/

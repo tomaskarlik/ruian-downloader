@@ -36,7 +36,7 @@ namespace RUIANDownloader.Services.Http
             _httpClient.DefaultRequestHeaders.Add("User-Agent", downloaderSettings.UserAgent);
 
             // client properties
-            _httpClient.Timeout = TimeSpan.FromMicroseconds(downloaderSettings.Timeout);
+            _httpClient.Timeout = TimeSpan.FromMilliseconds(downloaderSettings.Timeout);
 
             return _httpClient;
         }
