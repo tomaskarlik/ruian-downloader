@@ -1,4 +1,6 @@
-﻿namespace RUIANDownloader.Interfaces.Models
+﻿using System.Net;
+
+namespace RUIANDownloader.Interfaces.Models
 {
 
     public interface IDownloaderSettings
@@ -17,6 +19,30 @@
         /// Delay between unsuccessful attempts in ms
         /// </summary>
         int RetryDownloadDelay { get; set; }
+
+
+        /// <summary>
+        /// HTTP client - UseProxy
+        /// </summary>
+        bool UseProxy { get; set; }
+
+
+        /// <summary>
+        /// HTTP client - Proxy use default credentials
+        /// </summary>
+        bool UseDefaultCredentials { get; set; }
+
+
+        /// <summary>
+        /// HTTP client - Proxy settings
+        /// </summary>
+        IWebProxy? Proxy { get; set; }
+
+
+        /// <summary>
+        /// HTTP client - Proxy default credentials
+        /// </summary>
+        ICredentials? DefaultProxyCredentials { get; set; }
 
     }
 

@@ -1,4 +1,5 @@
 ﻿using RUIANDownloader.Interfaces.Models;
+using System.Net;
 
 namespace RUIANDownloader.Models
 {
@@ -13,6 +14,18 @@ namespace RUIANDownloader.Models
 
 
         public int RetryDownloadDelay { get; set; } = 1500;
+
+
+        public bool UseProxy { get; set; } = false;
+
+
+        public bool UseDefaultCredentials { get; set; } = true;
+
+
+        public IWebProxy? Proxy { get; set; } = null;
+
+
+        public ICredentials? DefaultProxyCredentials { get; set; } = null;
 
     }
 
