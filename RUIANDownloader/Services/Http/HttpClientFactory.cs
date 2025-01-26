@@ -33,6 +33,13 @@ namespace RUIANDownloader.Services.Http
             _httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/xml")
             );
+            _httpClient.DefaultRequestHeaders.Accept.Add(
+               new MediaTypeWithQualityHeaderValue("application/zip")
+           );
+            _httpClient.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("text/*")
+            );
+
             _httpClient.DefaultRequestHeaders.Add("User-Agent", downloaderSettings.UserAgent);
 
             // client properties
