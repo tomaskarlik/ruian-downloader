@@ -7,7 +7,7 @@ namespace RUIANDownloader.Models
     public class DownloaderSettings : IDownloaderSettings
     {
 
-        public string AtomServiceURL { get; set; } = "https://atom.cuzk.cz/getservicefeed.ashx?service=RUIAN-CSV-ADR-OB";
+        public string CsvFileURL { get; set; } = @"http://vdp.cuzk.cz/vymenny_format/csv/{DATE}_OB_ADR_csv.zip";
 
 
         public int MaxNumberOfDownloadAttempts { get; set; } = 3;
@@ -32,9 +32,6 @@ namespace RUIANDownloader.Models
 
 
         public int Timeout { get; set; } = 30000;
-
-
-        public int RequestDelay { get; set; } = 50;
 
     }
 

@@ -1,9 +1,8 @@
 ﻿using RUIANDownloader.Interfaces.Models;
 using RUIANDownloader.Models;
-using RUIANDownloader.Models.RUIAN;
 using RUIANDownloader.Services.Http;
 using RUIANDownloader.Services.Utils;
-using RUIANDownloader.Services.Xml;
+using System.IO.Compression;
 
 namespace RUIANDownloader
 {
@@ -27,42 +26,42 @@ namespace RUIANDownloader
         }
 
 
-        public async Task DownloadAsync()
+        public async Task DownloadAsync(DateTime? dateTime = null)
         {
-            // main feed
-            if (!Uri.TryCreate(this._downloaderSettings.AtomServiceURL, UriKind.Absolute, out Uri? atomSvcUri))
+            string? csvFile = null;
+
+            try
             {
-                throw new AddressDownloaderException("Settings", "Invalid URI.");
+                csvFile = await this.DownloadCsvFileAsync(dateTime);
+                this.ExtractFile(csvFile);
+
             }
-
-            var atomFeed = await this.ProcessAtomFeedAsync(atomSvcUri);
-            foreach (var entry in atomFeed.Entry)
+            finally
             {
-                if (!Uri.TryCreate(entry.Id, UriKind.Absolute, out Uri? entryUri))
+                if (csvFile != null && File.Exists(csvFile))
                 {
-                    throw new AddressDownloaderException(
-                        operation: "Proccess entry.",
-                        message: string.Format("Invalid URI \"{0}\".", entry.Id)
-                    );
+                    File.Delete(csvFile);
                 }
-
-                var entryData = await this.ProcessAtomFeedAsync(entryUri);
-                // TODO
             }
         }
 
 
-        private async Task<AtomFeed> ProcessAtomFeedAsync(Uri uri)
+        private async Task<string> DownloadCsvFileAsync(DateTime? dateTime = null)
         {
-            // download feed
-            string tmpFileFeed;
+            dateTime ??= DateTime.Now.LastDayInPreviousMonth();
+
+            var csvFileUri = new Uri(
+                this._downloaderSettings.CsvFileURL.Replace("{DATE}", dateTime.Value.ToString("yyyyMMdd"))
+            );
+
+            string tempFile;
             int attemp = 1;
 
             do
             {
                 try
                 {
-                    tmpFileFeed = await this._httpClient.DownloadFileToTempAsync(uri);
+                    tempFile = await this._httpClient.DownloadFileToTempAsync(csvFileUri);
                     break;
 
                 }
@@ -71,8 +70,8 @@ namespace RUIANDownloader
                     if (attemp >= this._downloaderSettings.MaxNumberOfDownloadAttempts)
                     {
                         throw new AddressDownloaderException(
-                            operation: string.Format("File download: {0}, attemps: {1}", uri.AbsolutePath, attemp),
-                            message: ex.Message,
+                            operation: nameof(DownloadCsvFileAsync),
+                            message: string.Format("File download: {0}, Attemps: {1}, Error: {2}", csvFileUri.AbsolutePath, attemp, ex.Message),
                             innerException: ex
                         );
                     }
@@ -85,29 +84,20 @@ namespace RUIANDownloader
 
             } while (true);
 
-            // deserialize feed
-            AtomFeed? atomFeed = null;
-            try
-            {
-                atomFeed = XmlDeserializer.Deserialize<AtomFeed>(tmpFileFeed);
+            return tempFile;
+        }
 
-            }
-            catch (Exception ex)
-            {
-                throw new AddressDownloaderException(
-                   string.Format("File deserialization: {0}", uri.AbsolutePath), ex.Message, ex
-               );
 
-            }
-            finally
+        private void ExtractFile(string fileName)
+        {
+            var tempDirectory = Directory.CreateTempSubdirectory("ruian_");
+            using (ZipArchive archive = ZipFile.OpenRead(fileName))
             {
-                if (File.Exists(tmpFileFeed))  // cleanup
+                foreach (ZipArchiveEntry entry in archive.Entries)
                 {
-                    File.Delete(tmpFileFeed);
+                    entry.ExtractToFile(Path.Combine(tempDirectory.FullName, entry.Name));
                 }
             }
-
-            return (AtomFeed)atomFeed!;
         }
 
     }

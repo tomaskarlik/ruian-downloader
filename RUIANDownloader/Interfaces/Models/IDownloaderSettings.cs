@@ -7,9 +7,10 @@ namespace RUIANDownloader.Interfaces.Models
     {
 
         /// <summary>
-        /// CZUK Atom Service - RUIAN-CSV-ADR-OB
+        /// CSV URL
+        /// Placeholder {DATE} will been replaced with version
         /// </summary>
-        string AtomServiceURL { get; set; }
+        string CsvFileURL { get; set; }
 
 
         int MaxNumberOfDownloadAttempts { get; set; }
@@ -55,12 +56,6 @@ namespace RUIANDownloader.Interfaces.Models
         /// HTTP client - request timeout in ms
         /// </summary>
         int Timeout { get; set; }
-
-
-        /// <summary>
-        /// Delay between requests in ms
-        /// </summary>
-        int RequestDelay { get; set; }
 
     }
 
