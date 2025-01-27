@@ -4,13 +4,13 @@ using System.Net.Http.Headers;
 namespace RUIANDownloader.Services.Http
 {
 
-    public static class HttpClientFactory
+    internal static class HttpClientFactory
     {
 
         private static HttpClient? _httpClient = null;
 
 
-        public static HttpClient Create(
+        internal static HttpClient Create(
             IDownloaderSettings downloaderSettings,
             HttpClientHandler? httpClientHandler = null
         )

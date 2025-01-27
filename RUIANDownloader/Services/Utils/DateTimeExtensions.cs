@@ -1,10 +1,10 @@
 ﻿namespace RUIANDownloader.Services.Utils
 {
 
-    public static class DateTimeExtensions
+    internal static class DateTimeExtensions
     {
 
-        public static DateTime LastDayInPreviousMonth(this DateTime current)
+        internal static DateTime LastDayInPreviousMonth(this DateTime current)
         {
             var month = current.Month;
             var year = current.Year;

@@ -1,10 +1,10 @@
 ﻿namespace RUIANDownloader.Services.Utils
 {
 
-    public static class HttpClientExtensions
+    internal static class HttpClientExtensions
     {
 
-        public static async Task DownloadFileTaskAsync(this HttpClient client, Uri uri, string fileName)
+        internal static async Task DownloadFileTaskAsync(this HttpClient client, Uri uri, string fileName)
         {
             var response = await client.GetAsync(uri);
             response.EnsureSuccessStatusCode();
@@ -19,7 +19,7 @@
         }
 
 
-        public static async Task<string> DownloadFileToTempAsync(this HttpClient client, Uri uri)
+        internal static async Task<string> DownloadFileToTempAsync(this HttpClient client, Uri uri)
         {
             var file = Path.GetTempFileName();
 

@@ -29,11 +29,12 @@ namespace RUIANDownloader
         public async Task DownloadAsync(DateTime? dateTime = null)
         {
             string? csvFile = null;
+            DataFileList? dataFileList = null;
 
             try
             {
                 csvFile = await this.DownloadCsvFileAsync(dateTime);
-                this.ExtractFile(csvFile);
+                dataFileList = this.ExtractFile(csvFile);
 
             }
             finally
@@ -41,6 +42,11 @@ namespace RUIANDownloader
                 if (csvFile != null && File.Exists(csvFile))
                 {
                     File.Delete(csvFile);
+                }
+
+                if (dataFileList != null && dataFileList.Directory.Exists)
+                {
+                    dataFileList.Directory.Delete(true);
                 }
             }
         }
@@ -88,16 +94,27 @@ namespace RUIANDownloader
         }
 
 
-        private void ExtractFile(string fileName)
+        private DataFileList ExtractFile(string fileName)
         {
             var tempDirectory = Directory.CreateTempSubdirectory("ruian_");
+            var dataFileList = new DataFileList(tempDirectory);
+
             using (ZipArchive archive = ZipFile.OpenRead(fileName))
             {
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
-                    entry.ExtractToFile(Path.Combine(tempDirectory.FullName, entry.Name));
+                    var outputFile = Path.Combine(tempDirectory.FullName, entry.Name);
+
+                    dataFileList.Files.Add(new DataFile() {
+                        FullName = outputFile,
+                        Name = entry.Name
+                    });
+
+                    entry.ExtractToFile(outputFile);
                 }
             }
+
+            return dataFileList;
         }
 
     }
