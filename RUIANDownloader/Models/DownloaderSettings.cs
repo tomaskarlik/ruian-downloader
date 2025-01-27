@@ -33,6 +33,9 @@ namespace RUIANDownloader.Models
 
         public int Timeout { get; set; } = 30000;
 
+
+        public int RequestDelay { get; set; } = 50;
+
     }
 
 }

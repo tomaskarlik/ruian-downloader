@@ -56,6 +56,12 @@ namespace RUIANDownloader.Interfaces.Models
         /// </summary>
         int Timeout { get; set; }
 
+
+        /// <summary>
+        /// Delay between requests in ms
+        /// </summary>
+        int RequestDelay { get; set; }
+
     }
 
 }
