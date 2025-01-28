@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Text;
 
 namespace RUIANDownloader.Interfaces.Models
 {
@@ -11,6 +12,12 @@ namespace RUIANDownloader.Interfaces.Models
         /// Placeholder {DATE} will been replaced with version
         /// </summary>
         string CsvFileURL { get; set; }
+
+
+        /// <summary>
+        /// CSV Encoding
+        /// </summary>
+        Encoding Encoding { get; set; }
 
 
         int MaxNumberOfDownloadAttempts { get; set; }

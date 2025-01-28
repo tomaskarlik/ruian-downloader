@@ -1,5 +1,6 @@
 ﻿using RUIANDownloader.Interfaces.Models;
 using System.Net;
+using System.Text;
 
 namespace RUIANDownloader.Models
 {
@@ -8,6 +9,9 @@ namespace RUIANDownloader.Models
     {
 
         public string CsvFileURL { get; set; } = @"http://vdp.cuzk.cz/vymenny_format/csv/{DATE}_OB_ADR_csv.zip";
+
+
+        public Encoding Encoding { get; set; } = CodePagesEncodingProvider.Instance.GetEncoding("Windows-1250")!;
 
 
         public int MaxNumberOfDownloadAttempts { get; set; } = 3;

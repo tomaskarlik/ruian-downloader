@@ -15,4 +15,9 @@
 		<RepositoryUrl>https://github.com/tomaskarlik/ruian-downloader</RepositoryUrl>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="System.Text.Encoding" Version="4.3.0" />
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.1" />
+	</ItemGroup>
+
 </Project>
