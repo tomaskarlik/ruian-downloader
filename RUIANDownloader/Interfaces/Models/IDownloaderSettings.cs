@@ -20,6 +20,24 @@ namespace RUIANDownloader.Interfaces.Models
         Encoding Encoding { get; set; }
 
 
+        /// <summary>
+        /// CSV Delimiter
+        /// </summary>
+        char Delimiter { get; set; }
+
+
+        /// <summary>
+        /// CSV Quote
+        /// </summary>
+        char Quote { get; set; }
+
+
+        /// <summary>
+        /// CSV Ignore first line
+        /// </summary>
+        bool IgnoreFirstLine { get; set; }
+
+
         int MaxNumberOfDownloadAttempts { get; set; }
 
 

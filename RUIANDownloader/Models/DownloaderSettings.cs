@@ -14,6 +14,15 @@ namespace RUIANDownloader.Models
         public Encoding Encoding { get; set; } = CodePagesEncodingProvider.Instance.GetEncoding("Windows-1250")!;
 
 
+        public char Delimiter { get; set; } = ';';
+
+
+        public char Quote { get; set; } = '"';
+
+
+        public bool IgnoreFirstLine { get; set; } = true;
+
+
         public int MaxNumberOfDownloadAttempts { get; set; } = 3;
 
 
