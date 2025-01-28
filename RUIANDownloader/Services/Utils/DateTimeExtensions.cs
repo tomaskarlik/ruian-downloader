@@ -19,7 +19,7 @@
                 month--;
             }
 
-            int daysInMonth = DateTime.DaysInMonth(year, month);
+            var daysInMonth = DateTime.DaysInMonth(year, month);
 
             return new DateTime(year, month, daysInMonth, 0, 0, 0, 0, current.Kind);
         }
