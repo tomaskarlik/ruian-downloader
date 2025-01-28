@@ -96,22 +96,38 @@ namespace RUIANDownloader
 
         private DataFileList ExtractFile(string fileName)
         {
-            var tempDirectory = Directory.CreateTempSubdirectory("ruian_");
-            var dataFileList = new DataFileList(tempDirectory);
+            DirectoryInfo? tempDirectory;
+            DataFileList dataFileList;
 
-            using (ZipArchive archive = ZipFile.OpenRead(fileName))
+            try
             {
-                foreach (ZipArchiveEntry entry in archive.Entries)
+                tempDirectory = Directory.CreateTempSubdirectory("ruian_");
+                dataFileList = new DataFileList(tempDirectory);
+
+                using (ZipArchive archive = ZipFile.OpenRead(fileName))
                 {
-                    var outputFile = Path.Combine(tempDirectory.FullName, entry.Name);
+                    foreach (ZipArchiveEntry entry in archive.Entries)
+                    {
+                        var outputFile = Path.Combine(tempDirectory.FullName, entry.Name);
 
-                    dataFileList.Files.Add(new DataFile() {
-                        FullName = outputFile,
-                        Name = entry.Name
-                    });
+                        dataFileList.Files.Add(new DataFile()
+                        {
+                            FullName = outputFile,
+                            Name = entry.Name
+                        });
 
-                    entry.ExtractToFile(outputFile);
+                        entry.ExtractToFile(outputFile);
+                    }
                 }
+
+            }
+            catch (Exception ex)
+            {
+                throw new AddressDownloaderException(
+                    operation: nameof(ExtractFile),
+                    message: string.Format("File \"{0}\" extract error: {1}", fileName, ex.Message),
+                    innerException: ex
+                );
             }
 
             return dataFileList;

@@ -4,9 +4,13 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<AssemblyTitle>RUIANDownloader</AssemblyTitle>
+		<Copyright>Copyright © Tomáš Karlík</Copyright>
 		<PackageId>RUIANDownloader</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>Tomáš Karlík</Authors>
+		<PackageLicenseExpression>MIT license</PackageLicenseExpression>
+		<Description>RÚIAN (Registr územní identifikace, adres a nemovitostí) address downloader.</Description>
 		<PackageDescription>RÚIAN (Registr územní identifikace, adres a nemovitostí) address downloader.</PackageDescription>
 		<RepositoryUrl>https://github.com/tomaskarlik/ruian-downloader</RepositoryUrl>
 	</PropertyGroup>
