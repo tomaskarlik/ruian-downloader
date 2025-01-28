@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AssemblyTitle>RUIANDownloader</AssemblyTitle>
-		<Copyright>Copyright © Tomáš Karlík</Copyright>
+		<Copyright>Copyright © 2025 Tomáš Karlík</Copyright>
 		<PackageId>RUIANDownloader</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>Tomáš Karlík</Authors>
@@ -16,7 +16,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="System.Text.Encoding" Version="4.3.0" />
 		<PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.1" />
 	</ItemGroup>
 
