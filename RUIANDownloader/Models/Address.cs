@@ -12,7 +12,7 @@ namespace RUIANDownloader.Models
         public int MunicipalityId { get; set; }
 
 
-        public required string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
 
         public int? MunicipalityDistrictId { get; set; }
