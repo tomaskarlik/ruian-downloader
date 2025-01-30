@@ -54,13 +54,16 @@ namespace RUIANDownloader.Models
         public int PostCode { get; set; }
 
 
-        public double CoordinateY { get; set; }
+        public double? CoordinateY { get; set; }
 
 
-        public double CoordinateX { get; set; }
+        public double? CoordinateX { get; set; }
 
 
         public DateTime ValidFrom { get; set; }
+
+
+        public string? SourceFile { get; set; }
 
 
         public override string ToString()

@@ -4,7 +4,7 @@
     internal static class StringExtensions
     {
 
-        public static string? TrimToNull(this string? value)
+        internal static string? TrimToNull(this string? value)
         {
             if (string.IsNullOrWhiteSpace(value))
             {

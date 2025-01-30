@@ -105,13 +105,13 @@ namespace RUIANDownloader.Interfaces.Models
         /// <summary>
         /// Souřadnice Y - Souřadnice Y definičního bodu adresního místa v systému S-JTSK (systém jednotné trigonometrické sítě katastrální), uvedené v[m].
         /// </summary>
-        double CoordinateY { get; set; }
+        double? CoordinateY { get; set; }
 
 
         /// <summary>
         /// Souřadnice X - Souřadnice X definičního bodu adresního místa v systému S-JTSK(systém jednotné trigonometrické sítě katastrální), uvedené v[m].
         /// </summary>
-        double CoordinateX { get; set; }
+        double? CoordinateX { get; set; }
 
 
         /// <summary>
