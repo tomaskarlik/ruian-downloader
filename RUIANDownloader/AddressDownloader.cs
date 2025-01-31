@@ -1,5 +1,6 @@
 ﻿using RUIANDownloader.Interfaces.Models;
 using RUIANDownloader.Models;
+using RUIANDownloader.Services.Csv;
 using RUIANDownloader.Services.Http;
 using RUIANDownloader.Services.Utils;
 using System.IO.Compression;
@@ -26,7 +27,7 @@ namespace RUIANDownloader
         }
 
 
-        public async Task DownloadAsync(DateTime? dateTime = null)
+        public async IAsyncEnumerable<T> DownloadAsync<T>(DateTime? dateTime = null) where T : IAddress, new()
         {
             string? csvFile = null;
             DataFileList? dataFileList = null;
@@ -35,6 +36,25 @@ namespace RUIANDownloader
             {
                 csvFile = await this.DownloadCsvFileAsync(dateTime);
                 dataFileList = this.ExtractFile(csvFile);
+
+                foreach (var file in dataFileList.Files)
+                {
+                    var lines = CsvParser.Read(file.FullName, this._downloaderSettings.Encoding, this._downloaderSettings.Delimiter, this._downloaderSettings.Quote, this._downloaderSettings.IgnoreFirstLine);
+                    if (lines == null)
+                    {
+                        continue;
+                    }
+
+                    while (lines.MoveNext())
+                    {
+                        if (lines.Current.Length == 0)
+                        {
+                            continue; // ignore blank lines
+                        }
+
+                        yield return (T)new T().Assign(lines.Current);
+                    }
+                }
 
             }
             finally
@@ -77,7 +97,7 @@ namespace RUIANDownloader
                     {
                         throw new AddressDownloaderException(
                             operation: nameof(DownloadCsvFileAsync),
-                            message: string.Format("File download: {0}, Attemps: {1}, Error: {2}", csvFileUri.AbsolutePath, attemp, ex.Message),
+                            message: string.Format("File download: {0}, Attemps: {1}, Error: {2}", csvFileUri.AbsoluteUri, attemp, ex.Message),
                             innerException: ex
                         );
                     }

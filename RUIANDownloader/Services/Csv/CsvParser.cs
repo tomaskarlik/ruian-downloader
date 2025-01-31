@@ -29,7 +29,7 @@ namespace RUIANDownloader.Services.Csv
 
         private static string[] ParseLine(string line, char delimiter, char quote)
         {
-            if (String.IsNullOrEmpty(line))
+            if (String.IsNullOrWhiteSpace(line))
             {
                 return [];
             }

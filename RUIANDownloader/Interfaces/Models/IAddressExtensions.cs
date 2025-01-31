@@ -1,17 +1,21 @@
-﻿using RUIANDownloader.Services.Utils;
+﻿using RUIANDownloader.Models;
+using RUIANDownloader.Services.Utils;
 using System.Globalization;
 
-namespace RUIANDownloader.Models
+namespace RUIANDownloader.Interfaces.Models
 {
 
-    internal static class AddressExtensions
+    internal static class IAddressExtensions
     {
 
-        internal static Address Assign(this Address address, string[] fields, string? file = null)
+        internal static IAddress Assign(this IAddress address, string[] fields)
         {
             if (fields == null || fields.Length < 19)
             {
-                throw new ArgumentException("Invalid fields count.", nameof(fields));
+                throw new AddressDownloaderException(
+                    operation: nameof(Assign),
+                    message: string.Format("Invalid fields count. Fields: {0}", (fields == null ? "N/A" : string.Join(",", fields)))
+                );
             }
 
             List<string> errors = [];
@@ -232,13 +236,13 @@ namespace RUIANDownloader.Models
                 errors.Add(string.Format("Missing or invalid field [18] {0}. Value: {1}", nameof(address.ValidFrom), fields[18]));
             }
 
-            // SourceFile
-            address.SourceFile = file;
-
             // errors
             if (errors.Count > 0)
             {
-                throw new ArgumentException(string.Format("Errors: {0}.", string.Join("\n", errors)), nameof(fields));
+                throw new AddressDownloaderException(
+                    operation: nameof(Assign),
+                    message: string.Format("Errors: {0}.", string.Join("\n", errors))
+                );
             }
 
             return address;

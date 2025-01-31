@@ -68,7 +68,7 @@ namespace RUIANDownloader.Models
 
         public override string ToString()
         {
-            return string.Format("{0}  {1} ({2})", this.PostCode, this.Name, this.Id);
+            return string.Format("{0} {1} ({2})", this.PostCode, this.Name, this.Id);
         }
 
     }
