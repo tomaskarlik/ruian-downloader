@@ -13,10 +13,20 @@
 		<Description>RÚIAN (Registr územní identifikace, adres a nemovitostí) address downloader.</Description>
 		<PackageDescription>RÚIAN (Registr územní identifikace, adres a nemovitostí) address downloader.</PackageDescription>
 		<RepositoryUrl>https://github.com/tomaskarlik/ruian-downloader</RepositoryUrl>
+		<PackageTags>ruian, library, cz, address</PackageTags>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="System.Text.Encoding.CodePages" Version="9.*" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Add a LICENSE -->
+		<None Include="..\LICENSE" Pack="true" PackagePath=""/>
+		<!-- Add a README.md -->
+		<None Include="..\README.md" Pack="true" PackagePath=""/>
 	</ItemGroup>
 
 </Project>
