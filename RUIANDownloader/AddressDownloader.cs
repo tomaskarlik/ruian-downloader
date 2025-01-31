@@ -31,28 +31,41 @@ namespace RUIANDownloader
         {
             string? csvFile = null;
             DataFileList? dataFileList = null;
+            CsvParser? csvParser = null;
 
             try
             {
                 csvFile = await this.DownloadCsvFileAsync(dateTime);
                 dataFileList = this.ExtractFile(csvFile);
 
+                // process files from archive
                 foreach (var file in dataFileList.Files)
                 {
-                    var lines = CsvParser.Read(file.FullName, this._downloaderSettings.Encoding, this._downloaderSettings.Delimiter, this._downloaderSettings.Quote, this._downloaderSettings.IgnoreFirstLine);
-                    if (lines == null)
+                    try
                     {
-                        continue;
-                    }
+                        csvParser = new CsvParser(
+                            fileName: file.FullName,
+                            encoding: this._downloaderSettings.Encoding,
+                            delimiter: this._downloaderSettings.Delimiter,
+                            quote: this._downloaderSettings.Quote,
+                            ignoreFirstLine: this._downloaderSettings.IgnoreFirstLine
+                        );
 
-                    while (lines.MoveNext())
-                    {
-                        if (lines.Current.Length == 0)
+                        var reader = csvParser.Read();
+                        while (reader?.MoveNext() == true)
                         {
-                            continue; // ignore blank lines
+                            if (reader.Current.Length == 0)
+                            {
+                                continue; // ignore blank lines
+                            }
+
+                            yield return (T)new T().Assign(reader.Current);
                         }
 
-                        yield return (T)new T().Assign(lines.Current);
+                    }
+                    finally
+                    {
+                        csvParser?.Close();
                     }
                 }
 

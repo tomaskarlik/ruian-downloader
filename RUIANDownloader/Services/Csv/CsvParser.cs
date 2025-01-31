@@ -3,10 +3,25 @@
 namespace RUIANDownloader.Services.Csv
 {
 
-    internal static class CsvParser
+    internal class CsvParser : IDisposable
     {
 
-        internal static IEnumerator<string[]> Read(
+        private readonly FileStream? _fileStream;
+
+
+        private readonly StreamReader? _streamReader;
+
+
+        private readonly char _delimiter;
+
+
+        private readonly char _quote;
+
+
+        private readonly bool _ignoreFirstLine;
+
+
+        public CsvParser(
             string fileName,
             Encoding encoding,
             char delimiter = ',',
@@ -14,20 +29,48 @@ namespace RUIANDownloader.Services.Csv
             bool ignoreFirstLine = true
         )
         {
-            using (FileStream fs = File.Open(fileName, FileMode.Open, FileAccess.Read))
-            using (StreamReader sr = new StreamReader(fs, encoding))
+            this._delimiter = delimiter;
+            this._quote = quote;
+            this._ignoreFirstLine = ignoreFirstLine;
+
+            this._fileStream = File.Open(fileName, FileMode.Open, FileAccess.Read);
+            this._streamReader = new StreamReader(this._fileStream, encoding);
+        }
+
+
+        internal IEnumerator<string[]> Read()
+        {
+            if (this._streamReader != null)
             {
-                string? line = ignoreFirstLine ? sr.ReadLine() : null;
-                while ((line = sr.ReadLine()) != null)
+                if (this._ignoreFirstLine)
                 {
-                    yield return ParseLine(line, delimiter, quote);
+                    this._streamReader.ReadLine();
                 }
-                sr.Close();
+
+                string? line;
+                while ((line = this._streamReader.ReadLine()) != null)
+                {
+                    yield return this.ParseLine(line);
+                }
             }
         }
 
 
-        private static string[] ParseLine(string line, char delimiter, char quote)
+        internal void Close()
+        {
+            this._streamReader?.Close();
+            this._fileStream?.Close();
+        }
+
+
+        public void Dispose()
+        {
+            this._streamReader?.Dispose();
+            this._fileStream?.Dispose();
+        }
+
+
+        private string[] ParseLine(string line)
         {
             if (String.IsNullOrWhiteSpace(line))
             {
@@ -39,7 +82,7 @@ namespace RUIANDownloader.Services.Csv
             int i = 0;
             while (true)
             {
-                string? cell = ParseNextCell(line, ref i, delimiter, quote);
+                string? cell = this.ParseNextCell(line, ref i);
                 if (cell == null)
                 {
                     break;
@@ -51,25 +94,25 @@ namespace RUIANDownloader.Services.Csv
         }
 
 
-        private static string? ParseNextCell(string line, ref int i, char delimiter, char quote)
+        private string? ParseNextCell(string line, ref int i)
         {
             if (i >= line.Length)
             {
                 return null;
             }
 
-            if (line[i] != quote)
+            if (line[i] != this._quote)
             {
-                return ParseNotEscapedCell(line, ref i, delimiter);
+                return this.ParseNotEscapedCell(line, ref i);
             }
             else
             {
-                return ParseEscapedCell(line, ref i, delimiter, quote);
+                return this.ParseEscapedCell(line, ref i);
             }
         }
 
 
-        private static string ParseNotEscapedCell(string line, ref int i, char delimiter)
+        private string ParseNotEscapedCell(string line, ref int i)
         {
             StringBuilder sb = new();
 
@@ -80,7 +123,7 @@ namespace RUIANDownloader.Services.Csv
                     break;
                 }
 
-                if (line[i] == delimiter)
+                if (line[i] == this._delimiter)
                 {
                     i++; // return iterator after delimiter
                     break;
@@ -94,7 +137,7 @@ namespace RUIANDownloader.Services.Csv
         }
 
 
-        private static string ParseEscapedCell(string line, ref int i, char delimiter, char quote)
+        private string ParseEscapedCell(string line, ref int i)
         {
             StringBuilder sb = new();
             i++; // omit first character (quotation mark)
@@ -106,7 +149,7 @@ namespace RUIANDownloader.Services.Csv
                     break;
                 }
 
-                if (line[i] == quote)
+                if (line[i] == this._quote)
                 {
                     i++; // ignore quote char
 
@@ -117,7 +160,7 @@ namespace RUIANDownloader.Services.Csv
                         break;
                     }
 
-                    if (line[i] == delimiter)
+                    if (line[i] == this._delimiter)
                     {
                         // quotation mark was closing cell;
                         // return iterator after delimiter
@@ -132,6 +175,7 @@ namespace RUIANDownloader.Services.Csv
 
             return sb.ToString();
         }
+
     }
 
 }

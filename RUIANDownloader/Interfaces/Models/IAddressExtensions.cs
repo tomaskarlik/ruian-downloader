@@ -14,7 +14,7 @@ namespace RUIANDownloader.Interfaces.Models
             {
                 throw new AddressDownloaderException(
                     operation: nameof(Assign),
-                    message: string.Format("Invalid fields count. Fields: {0}", (fields == null ? "N/A" : string.Join(",", fields)))
+                    message: string.Format("Invalid fields count ({0}). Fields: {1}", fields?.Length, (fields == null ? "N/A" : string.Join(",", fields)))
                 );
             }
 
