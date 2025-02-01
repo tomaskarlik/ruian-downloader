@@ -7,39 +7,30 @@ namespace RUIANDownloader.Services.Http
     internal static class HttpClientFactory
     {
 
-        private static HttpClient? _httpClient = null;
-
-
         internal static HttpClient Create(
             IDownloaderSettings downloaderSettings,
             HttpMessageHandler? httpClientHandler = null
         )
         {
-            if (_httpClient != null)
-            {
-                return _httpClient;
-            }
-
             // create client
-            _httpClient = new HttpClient(
+            var httpClient = new HttpClient(
                 handler: httpClientHandler ?? HttpClientHandlerFactory.Create(downloaderSettings)
             );
 
             // set headers
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(
                new MediaTypeWithQualityHeaderValue("application/zip")
             );
-            _httpClient.DefaultRequestHeaders.Accept.Add(
+            httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("text/*")
             );
-
-            _httpClient.DefaultRequestHeaders.Add("User-Agent", downloaderSettings.UserAgent);
+            httpClient.DefaultRequestHeaders.Add("User-Agent", downloaderSettings.UserAgent);
 
             // client properties
-            _httpClient.Timeout = TimeSpan.FromMilliseconds(downloaderSettings.Timeout);
+            httpClient.Timeout = TimeSpan.FromMilliseconds(downloaderSettings.Timeout);
 
-            return _httpClient;
+            return httpClient;
         }
 
     }

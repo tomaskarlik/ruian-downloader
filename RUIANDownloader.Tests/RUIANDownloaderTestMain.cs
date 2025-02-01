@@ -1,5 +1,6 @@
 ﻿using DotNet.Sdk.Extensions.Testing.HttpMocking.HttpMessageHandlers;
 using DotNet.Sdk.Extensions.Testing.HttpMocking.HttpMessageHandlers.ResponseMocking;
+using RUIANDownloader;
 using RUIANDownloader.Models;
 using System.Net;
 using System.Net.Http.Headers;
@@ -54,14 +55,21 @@ namespace RUIANDownloader.Tests
             // run downloader
             var addressDownloader = new AddressDownloader(null, handler);
 
-            await Assert.ThrowsExceptionAsync<AddressDownloaderException>(async () =>
+            try
             {
                 var records = addressDownloader.DownloadAsync<Address>();
                 await foreach (var address in records)
                 {
                     Console.WriteLine(address.Id);
                 }
-            });
+
+                Assert.Fail("No exception thrown.");
+
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(ex is AddressDownloaderException);
+            }
         }
 
 
