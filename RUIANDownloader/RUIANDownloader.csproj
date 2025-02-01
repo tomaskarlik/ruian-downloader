@@ -19,6 +19,7 @@
 		<ApplicationIcon>AddressDownloader.ico</ApplicationIcon>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PackageIcon>Images\AddressDownloader.ico</PackageIcon>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -35,7 +36,8 @@
 		<!-- Add a README.md -->
 		<None Include="..\README.md" Pack="true" PackagePath="" />
 		<!-- Add icon -->
-		<None Include="AddressDownloader.ico" PackagePath="" />
+		<None Include="AddressDownloader.ico" Pack="true" PackagePath="Images" />
+		<None Include="AddressDownloader.png" Pack="true" PackagePath="Images" />
 	</ItemGroup>
 
 </Project>
