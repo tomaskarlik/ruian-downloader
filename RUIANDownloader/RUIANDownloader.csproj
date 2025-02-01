@@ -19,7 +19,7 @@
 		<ApplicationIcon>AddressDownloader.ico</ApplicationIcon>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<PackageIcon>Images\AddressDownloader.ico</PackageIcon>
+		<PackageIcon>Images\AddressDownloader.png</PackageIcon>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
