@@ -24,7 +24,8 @@ namespace RUIANDownloader.Tests
         public async Task AddressDownloaderTestAsync()
         {
             // create http mocks
-            var handler = this.CreateHttpHandlerMock("Data\\MockData1.zip");
+            var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data\\MockData1.zip");
+            var handler = this.CreateHttpHandlerMock(file);
 
             // run downloader
             var addressDownloader = new AddressDownloader(null, handler);
