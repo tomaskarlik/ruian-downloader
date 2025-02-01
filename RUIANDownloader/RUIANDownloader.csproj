@@ -13,8 +13,16 @@
 		<Description>RÚIAN (Registr územní identifikace, adres a nemovitostí) address downloader.</Description>
 		<PackageDescription>RÚIAN (Registr územní identifikace, adres a nemovitostí) address downloader.</PackageDescription>
 		<RepositoryUrl>https://github.com/tomaskarlik/ruian-downloader</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/tomaskarlik/ruian-downloader</PackageProjectUrl>
 		<PackageTags>ruian, library, cz, address</PackageTags>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<ApplicationIcon>AddressDownloader.ico</ApplicationIcon>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -23,9 +31,11 @@
 
 	<ItemGroup>
 		<!-- Add a LICENSE -->
-		<None Include="..\LICENSE" Pack="true" PackagePath=""/>
+		<None Include="..\LICENSE" Pack="true" PackagePath="" />
 		<!-- Add a README.md -->
-		<None Include="..\README.md" Pack="true" PackagePath=""/>
+		<None Include="..\README.md" Pack="true" PackagePath="" />
+		<!-- Add icon -->
+		<None Include="AddressDownloader.ico" PackagePath="" />
 	</ItemGroup>
 
 </Project>
