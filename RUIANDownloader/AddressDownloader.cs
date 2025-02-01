@@ -141,6 +141,11 @@ namespace RUIANDownloader
                 {
                     foreach (ZipArchiveEntry entry in archive.Entries)
                     {
+                        if (entry.Length == 0)
+                        {
+                            continue;
+                        }
+
                         var outputFile = Path.Combine(tempDirectory.FullName, entry.Name);
 
                         dataFileList.Files.Add(new DataFile()

@@ -17,7 +17,7 @@ namespace RUIANDownloader.Tests
         private const string TestUri = "http://vdp.cuzk.cz/vymenny_format/csv/";
 
 
-        private const int TestPostCode = 545465;
+        private const int TestPostCode = 38272;
 
 
         [TestMethod]
@@ -41,6 +41,27 @@ namespace RUIANDownloader.Tests
             }
 
             Assert.IsTrue(count == AddressCount);
+        }
+
+
+        [TestMethod]
+        public async Task AddressDownloaderInvalidFileTestAsync()
+        {
+            // create http mocks
+            var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "MockData2.zip");
+            var handler = this.CreateHttpHandlerMock(file);
+
+            // run downloader
+            var addressDownloader = new AddressDownloader(null, handler);
+
+            await Assert.ThrowsExceptionAsync<AddressDownloaderException>(async () =>
+            {
+                var records = addressDownloader.DownloadAsync<Address>();
+                await foreach (var address in records)
+                {
+                    Console.WriteLine(address.Id);
+                }
+            });
         }
 
 

@@ -11,10 +11,18 @@
 
             var stream = await response.Content.ReadAsStreamAsync();
             var fileInfo = new FileInfo(fileName);
+            var fileStream = fileInfo.OpenWrite();
 
-            using (var fileStream = fileInfo.OpenWrite())
+            try
             {
                 await stream.CopyToAsync(fileStream);
+
+            }
+            finally
+            {
+                fileStream?.Close();
+                stream?.Close();
+                response?.Dispose();
             }
         }
 
