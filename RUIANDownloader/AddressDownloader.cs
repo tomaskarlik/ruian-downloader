@@ -19,7 +19,7 @@ namespace RUIANDownloader
 
         public AddressDownloader(
             IDownloaderSettings? downloaderSettings = null,
-            HttpClientHandler? httpClientHandler = null
+            HttpMessageHandler? httpClientHandler = null
         )
         {
             this._downloaderSettings = downloaderSettings ?? new DownloaderSettings();

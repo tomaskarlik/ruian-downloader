@@ -14,7 +14,6 @@
 		<PackageDescription>RÚIAN (Registr územní identifikace, adres a nemovitostí) address downloader.</PackageDescription>
 		<RepositoryUrl>https://github.com/tomaskarlik/ruian-downloader</RepositoryUrl>
 		<PackageTags>ruian, library, cz, address</PackageTags>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 

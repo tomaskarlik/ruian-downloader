@@ -12,7 +12,7 @@ namespace RUIANDownloader.Services.Http
 
         internal static HttpClient Create(
             IDownloaderSettings downloaderSettings,
-            HttpClientHandler? httpClientHandler = null
+            HttpMessageHandler? httpClientHandler = null
         )
         {
             if (_httpClient != null)

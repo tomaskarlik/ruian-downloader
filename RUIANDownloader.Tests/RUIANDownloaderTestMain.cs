@@ -1,4 +1,8 @@
-﻿using RUIANDownloader.Models;
+﻿using DotNet.Sdk.Extensions.Testing.HttpMocking.HttpMessageHandlers;
+using DotNet.Sdk.Extensions.Testing.HttpMocking.HttpMessageHandlers.ResponseMocking;
+using RUIANDownloader.Models;
+using System.Net;
+using System.Net.Http.Headers;
 
 namespace RUIANDownloader.Tests
 {
@@ -7,31 +11,71 @@ namespace RUIANDownloader.Tests
     public sealed class RUIANDownloaderTestMain
     {
 
-        private const int MinAddressCount = 2990000;
+        private const int AddressCount = 2;
 
 
-        [TestMethod, Timeout(600000)]
+        private const string TestUri = "http://vdp.cuzk.cz/vymenny_format/csv/";
+
+
+        private const int TestPostCode = 545465;
+
+
+        [TestMethod]
         public async Task AddressDownloaderTestAsync()
         {
-            var addressDownloader = new AddressDownloader();
+            // create http mocks
+            var handler = this.CreateHttpHandlerMock("Data\\MockData1.zip");
+
+            // run downloader
+            var addressDownloader = new AddressDownloader(null, handler);
             var records = addressDownloader.DownloadAsync<Address>();
 
             Assert.IsNotNull(records);
 
             var count = 0;
-            var exists16000 = false;
-            var exists61600 = false;
-
             await foreach (var address in records)
             {
                 count++;
-                exists16000 = exists16000 || (address.PostCode == 16000);
-                exists61600 = exists61600 || (address.PostCode == 61600);
+                Assert.AreEqual(address.PostCode, TestPostCode);
             }
 
-            Assert.IsTrue(count > MinAddressCount);
-            Assert.IsTrue(exists16000);
-            Assert.IsTrue(exists61600);
+            Assert.IsTrue(count == AddressCount);
+        }
+
+
+        private TestHttpMessageHandler CreateHttpHandlerMock(string file)
+        {
+            // prepare http mocks
+            var httpResponseMessageMock = new HttpResponseMessageMockBuilder()
+                .Where(httpRequestMessage =>
+                {
+                    return httpRequestMessage.Method == HttpMethod.Get &&
+                        httpRequestMessage.RequestUri.AbsoluteUri.StartsWith(TestUri);
+                })
+                .RespondWith(httpRequestMessage =>
+                {
+                    var fileBytes = File.ReadAllBytes(file);
+                    var content = new ByteArrayContent(fileBytes);
+                    content.ReadAsByteArrayAsync();
+
+                    var response = new HttpResponseMessage
+                    {
+                        Content = content,
+                        StatusCode = HttpStatusCode.OK
+                    };
+
+                    response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                    response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
+
+                    return response;
+                })
+                .Build();
+
+            // add the mocks to the http handler
+            var handler = new TestHttpMessageHandler();
+            handler.MockHttpResponse(httpResponseMessageMock);
+
+            return handler;
         }
 
     }
