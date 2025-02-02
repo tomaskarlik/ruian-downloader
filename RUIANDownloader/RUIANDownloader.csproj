@@ -7,7 +7,7 @@
 		<AssemblyTitle>RUIANDownloader</AssemblyTitle>
 		<Copyright>Copyright © 2025 Tomáš Karlík</Copyright>
 		<PackageId>RUIANDownloader</PackageId>
-		<Version>1.0.0</Version>
+		<Version>1.0.1</Version>
 		<Authors>Tomáš Karlík</Authors>
 		<EnablePackageValidation>true</EnablePackageValidation>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
