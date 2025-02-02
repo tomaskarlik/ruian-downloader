@@ -10,6 +10,7 @@
 		<Version>1.0.0</Version>
 		<Authors>Tomáš Karlík</Authors>
 		<EnablePackageValidation>true</EnablePackageValidation>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Description>RÚIAN (Registr územní identifikace, adres a nemovitostí) address downloader.</Description>
 		<PackageDescription>RÚIAN (Registr územní identifikace, adres a nemovitostí) address downloader.</PackageDescription>
 		<RepositoryUrl>https://github.com/tomaskarlik/ruian-downloader</RepositoryUrl>
