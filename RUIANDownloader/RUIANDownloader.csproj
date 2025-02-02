@@ -9,7 +9,7 @@
 		<PackageId>RUIANDownloader</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>Tomáš Karlík</Authors>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<EnablePackageValidation>true</EnablePackageValidation>
 		<Description>RÚIAN (Registr územní identifikace, adres a nemovitostí) address downloader.</Description>
 		<PackageDescription>RÚIAN (Registr územní identifikace, adres a nemovitostí) address downloader.</PackageDescription>
 		<RepositoryUrl>https://github.com/tomaskarlik/ruian-downloader</RepositoryUrl>
@@ -24,10 +24,16 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<!-- If all members are not documented, you can disable the compiler warnings -->
+		<NoWarn>$(NoWarn);CS1591</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="System.Text.Encoding.CodePages" Version="9.*" />
+		<PackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.*">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
