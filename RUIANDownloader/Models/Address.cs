@@ -63,9 +63,6 @@ namespace RUIANDownloader.Models
         public DateTime ValidFrom { get; set; }
 
 
-        public string? SourceFile { get; set; }
-
-
         public override string ToString()
         {
             return string.Format("{0} {1} ({2})", this.PostCode, this.Name, this.Id);

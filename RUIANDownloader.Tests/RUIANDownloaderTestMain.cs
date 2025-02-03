@@ -1,6 +1,5 @@
 ﻿using DotNet.Sdk.Extensions.Testing.HttpMocking.HttpMessageHandlers;
 using DotNet.Sdk.Extensions.Testing.HttpMocking.HttpMessageHandlers.ResponseMocking;
-using RUIANDownloader;
 using RUIANDownloader.Models;
 using System.Net;
 using System.Net.Http.Headers;
