@@ -25,3 +25,32 @@ public async Task Main()
     }
 }
 ```
+
+### Custom settings and implementation of IAddress
+```cs
+var settings = new DownloaderSettings()
+{
+    Proxy = new WebProxy() // ex. proxy settings
+};
+
+var downloader = new AddressDownloader(settings);
+var reader = downloader.DownloadAsync<RUIANAddress>(DateTime.Parse("2025-01-31")); // custom file date
+
+// custom implementation of entity,
+// for example ef database entity
+[Table("ruian_adresy")]
+public class RUIANAddress : IAddress
+{
+
+    [Key]
+    [Column("id")]
+    public int Id { get; set; }
+
+
+    [Column("kod_obce")]
+    public int MunicipalityId { get; set; }
+    
+    // ...
+
+}
+```
